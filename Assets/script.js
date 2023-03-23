@@ -57,10 +57,8 @@ function writePassword() {
     }
 
     passwordText.value = password;
-  }
-  
+  }  
 }
-
 // The following functions all generate a random variable associated to their character type, such that said variable can be then,
 // used in the above function.
 function getRandomLower() {
