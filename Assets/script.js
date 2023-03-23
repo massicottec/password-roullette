@@ -15,36 +15,50 @@ function writePassword() {
 
   var password = generatePassword()
   var passwordText = document.querySelector("#password");
+  // Checks to see is the user input for the following variables was correctly input.  If not it displays a confirm popup,
+  // stating that the inputs were invalid and please try again.
+  if (lowers == false && uppers == false && numbers == false && symbols == false) {
+    confirm('Atleast one criteria is required to be selected to continue.\nPlease try again.');
+  }
 
-  // This function is what will commit the generated password to follow the selected criterias above, to form the finalized output.
-  function generatePassword(lower, upper, number, symbol) {
-  var randomPassword = "";
-  var variationsCount = [lower, upper, number, symbol].length;
-    // runs an interative loop to generate a string for each criteria requirement, should the associated variables be true,
-    // to then add into the randomPassword variable as a string that can then be sliced upon the final iteration to grab a healthy,
-    // amount of all criteria required.
-    for (var i = 0; i < passwordLength; i ++) {
-      if (uppers) {
-        randomPassword += getRandomUpper();
-      }
+  if (passwordLength < 8 || passwordLength > 128) {
+    confirm('The password length that was input was invalid.\nA number between 8 and 128 characters must be selected to continue.\nPlease try again.');
+  }
 
-      if (numbers) {
-        randomPassword += getRandomNumber();
-      }
+  if (passwordLength >= 8 || passwordLength <= 128) {
+    // This function is what will commit the generated password to follow the selected criterias above, to form the finalized output.
+    function generatePassword(lower, upper, number, symbol) {
+    var randomPassword = "";
+    var variationsCount = [lower, upper, number, symbol].length;
+      // runs an interative loop to generate a string for each criteria requirement, should the associated variables be true,
+      // to then add into the randomPassword variable as a string that can then be sliced upon the final iteration to grab a healthy,
+      // amount of all criteria required.  
+      for (var i = 0; i < passwordLength; i ++) {
+        if (uppers) {
+          randomPassword += getRandomUpper();
+        }
 
-      if (symbols) {
-        randomPassword += getRandomSymbol();
-      }
+        if (numbers) {
+          randomPassword += getRandomNumber();
+        }
 
-      if (lowers) {
-        randomPassword += getRandomLower();
+        if (symbols) {
+          randomPassword += getRandomSymbol();
+        }
+
+        if (lowers) {
+          randomPassword += getRandomLower();
+        }
       }
-    }
+    // Takes the variables that were added into the randompassword variable as a string and slices out an alotment of variables,
+    // to the required length of the requested password.   
     var completePassword = randomPassword.slice(0, passwordLength);
     return completePassword
+    }
+
+    passwordText.value = password;
   }
-  passwordText.value = password;
-  console.log(generatePassword())
+  
 }
 
 // The following functions all generate a random variable associated to their character type, such that said variable can be then,
