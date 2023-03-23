@@ -1,36 +1,68 @@
 // Assignment code here
-var passwordCriteria = []; // An array used for storing the user's selected requirements
-var passwordLength = 0; // 
-var passwordSelections = [
-  {A: 'A', B: 'B', C: 'C', D: 'D', E: 'E', F: 'F', G: 'G', H: 'H', I: 'I', J: 'J', K: 'K', L: 'L', M: 'M', N: 'N', O: 'O', P: 'P', Q: 'Q', R: 'R', S: 'S', T: 'T', U: 'U', V: 'V', W: 'W', X: 'X', Y: 'Y', Z: 'Z'},
-  {a: 'a', b: 'b', c: 'c', d: 'd', e: 'e', f: 'f', g: 'g', h: 'h', i: 'i', j: 'j', k: 'k', l: 'l', m: 'm', n: 'n', o: 'o', p: 'p', q: 'q', r: 'r', s: 's', t: 't', u: 'u', v: 'v', w: 'w', x: 'x', y: 'y', z: 'z'},
-  {1: '1', 2: '2', 3: '3', 4: '4', 5: '5', 6: '6', 7: '7', 8: '8', 9: '9', 0: '0'},
-  {ex: '!', at: '@', hash: '#', cash: '$',  per: '%', hat: '^', amb: '&', ast: '*'}
-];
-
-// Prompts users for what there password must include.
-function criteria() {
-  passwordCriteria.push(confirm('Does your password require lowercase elements?'));
-  passwordCriteria.push(confirm('Does your password require uppercase elements?'));
-  passwordCriteria.push(confirm('Does your password require numeric elements?'));
-  passwordCriteria.push(confirm('Does your password require special characters?'));
-  passwordLength = Number(prompt('Choose a number between 8 and 128 to set set password length.'));
-  console.log(passwordLength);
-};
-// console.log(passwordCriteria);
-console.log(passwordLength);
-
-
-// Get references to the #generate element
+// Assigns a vairable that javascript can use to affect the html id associated.
 var generateBtn = document.querySelector("#generate");
 
-// Write password to the #password input
+// Add event listener to generate button
+generateBtn.addEventListener("click", writePassword);
+
+// This function kick starts the process of creating a randomly generated password.
 function writePassword() {
-  var password = generatePassword();
+  var lowers = confirm('Does your password require lowercase elements?'); // This section prompts the user for various criteria,
+  var uppers = confirm('Does your password require uppercase elements?'); // required within their personally randomized password,
+  var numbers = confirm('Does your password require numeric elements?'); // and stores the prompts as boolean structures.
+  var symbols = confirm('Does your password require special characters?');
+  var passwordLength = Number(prompt('Choose a number between 8 and 128 to set set password length.')); // prompts user for how long their password should be.
+
+  var password = generatePassword()
   var passwordText = document.querySelector("#password");
 
+  // This function is what will commit the generated password to follow the selected criterias above, to form the finalized output.
+  function generatePassword(lower, upper, number, symbol) {
+  var randomPassword = "";
+  var variationsCount = [lower, upper, number, symbol].length;
+    // runs an interative loop to generate a string for each criteria requirement, should the associated variables be true,
+    // to then add into the randomPassword variable as a string that can then be sliced upon the final iteration to grab a healthy,
+    // amount of all criteria required.
+    for (var i = 0; i < passwordLength; i ++) {
+      if (uppers) {
+        randomPassword += getRandomUpper();
+      }
+
+      if (numbers) {
+        randomPassword += getRandomNumber();
+      }
+
+      if (symbols) {
+        randomPassword += getRandomSymbol();
+      }
+
+      if (lowers) {
+        randomPassword += getRandomLower();
+      }
+    }
+    var completePassword = randomPassword.slice(0, passwordLength);
+    return completePassword
+  }
   passwordText.value = password;
+  console.log(generatePassword())
 }
 
-// Add event listener to generate button
-generateBtn.addEventListener("click", criteria);
+// The following functions all generate a random variable associated to their character type, such that said variable can be then,
+// used in the above function.
+function getRandomLower() {
+  return String.fromCharCode(Math.floor(Math.random()*26)+97);
+}
+
+function getRandomUpper() {
+  var uppers = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  return uppers[Math.floor(Math.random()* uppers.length)];
+}
+
+function getRandomNumber() {
+  return String.fromCharCode(Math.floor(Math.random()*10)+48);
+}
+
+function getRandomSymbol() {
+  var symbols = "!@#$%^&*";
+  return symbols[Math.floor(Math.random()* symbols.length)]
+}
