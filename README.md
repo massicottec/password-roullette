@@ -12,5 +12,6 @@ https://massicottec.github.io/password-roullette/
 ![password-roullette](./Assets/Images/password-roullette.png)
 
 ## Credits
-Chris Massicotte
-Xandromus
+
+    Chris Massicotte,
+    Xandromus
